@@ -35,6 +35,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   # Fady Fawzy Comment: Flutter Version is 3.22.2
   cupertino_icons: ^1.0.8
+  # A Flutter package to use fonts from fonts.google.com. Supports HTTP fetching, caching, and asset bundling.
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
