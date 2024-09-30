@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/place.dart';
 
 class PlacesNotifier extends StateNotifier<List<Place>> {
-  PlacesNotifier() : super([]);
+  PlacesNotifier() : super(const []);
 
   void addPlace({required Place place}) {
-    state = [...state, place];
+    state = [place, ...state];
   }
 }
 
