@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/place.dart';
+import '../providers/places_provider.dart';
 
-class NewPlaceView extends StatefulWidget {
+class NewPlaceView extends ConsumerStatefulWidget {
   const NewPlaceView({super.key});
 
   @override
-  State<NewPlaceView> createState() => _NewPlaceViewState();
+  ConsumerState<NewPlaceView> createState() => _NewPlaceViewState();
 }
 
-class _NewPlaceViewState extends State<NewPlaceView> {
+class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
   final formKey = GlobalKey<FormState>();
   var title = '';
 
@@ -51,6 +53,10 @@ class _NewPlaceViewState extends State<NewPlaceView> {
       form.save();
 
       final newPlace = Place(id: '${DateTime.now()}', title: title);
+
+      ref.read(placesProvider.notifier).addPlace(place: newPlace);
+
+      Navigator.pop(context);
     }
   }
 }

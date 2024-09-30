@@ -9,10 +9,10 @@ class PlacesListView extends ConsumerWidget {
 
   @override
   Widget build(context, ref) {
-    final places = ref.read(placesProvider);
+    final places = ref.watch(placesProvider);
     return ListView.builder(
       itemCount: places.length,
-      itemBuilder: (context, index) => const PlaceListTile(),
+      itemBuilder: (context, index) => PlaceListTile(place: places[index]),
     );
   }
 }
