@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/place.dart';
+
 class NewPlaceView extends StatefulWidget {
   const NewPlaceView({super.key});
 
@@ -9,6 +11,7 @@ class NewPlaceView extends StatefulWidget {
 
 class _NewPlaceViewState extends State<NewPlaceView> {
   final formKey = GlobalKey<FormState>();
+  var title = '';
 
   @override
   Widget build(context) {
@@ -22,10 +25,15 @@ class _NewPlaceViewState extends State<NewPlaceView> {
             children: [
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Title'),
+                validator: (value) =>
+                    value == null || value.isEmpty || value.length < 2
+                        ? 'Invalid input!'
+                        : null,
+                onSaved: (value) => title = value!,
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: saveItem,
                 icon: const Icon(Icons.add_rounded),
                 label: const Text('Add place'),
               ),
@@ -34,5 +42,15 @@ class _NewPlaceViewState extends State<NewPlaceView> {
         ),
       ),
     );
+  }
+
+  Future<void> saveItem() async {
+    final form = formKey.currentState;
+
+    if (form != null && form.validate()) {
+      form.save();
+
+      final newPlace = Place(id: '${DateTime.now()}', title: title);
+    }
   }
 }
