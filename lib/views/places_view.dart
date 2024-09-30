@@ -1,3 +1,4 @@
+import 'package:favorite_places/views/new_place_view.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/places_list_view.dart';
@@ -12,7 +13,10 @@ class PlacesView extends StatelessWidget {
         title: const Text('Your Places'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const NewPlaceView()),
+            ),
             icon: const Icon(Icons.add_rounded),
           ),
         ],
