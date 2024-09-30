@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../models/place.dart';
+
 class PlaceListTile extends StatelessWidget {
-  const PlaceListTile({super.key});
+  final Place place;
+
+  const PlaceListTile({super.key, required this.place});
 
   @override
-  Widget build(context) {
-    return const ListTile(
-      title: Text('Fady'),
-    );
-  }
+  Widget build(context) => ListTile(title: Text(place.title));
 }

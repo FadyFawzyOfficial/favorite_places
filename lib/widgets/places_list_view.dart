@@ -1,15 +1,18 @@
+import 'package:favorite_places/providers/places_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'place_list_tile.dart';
 
-class PlacesListView extends StatelessWidget {
+class PlacesListView extends ConsumerWidget {
   const PlacesListView({super.key});
 
   @override
-  Widget build(context) {
+  Widget build(context, ref) {
+    final places = ref.watch(placesProvider);
     return ListView.builder(
-      itemCount: 10,
-      itemBuilder: (context, index) => const PlaceListTile(),
+      itemCount: places.length,
+      itemBuilder: (context, index) => PlaceListTile(place: places[index]),
     );
   }
 }
