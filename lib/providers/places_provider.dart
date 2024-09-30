@@ -2,4 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/place.dart';
 
-final placesProvider = Provider((ref) => <Place>[]);
+class PlacesNotifier extends StateNotifier<List<Place>> {
+  PlacesNotifier() : super([]);
+
+  void addPlace({required Place place}) {
+    state = [...state, place];
+  }
+}
+
+final placesProvider = StateNotifierProvider<PlacesNotifier, List<Place>>(
+    (ref) => PlacesNotifier());
