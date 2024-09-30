@@ -1,3 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final placesProvider = Provider((ref) => []);
+import '../models/place.dart';
+
+final placesProvider = Provider((ref) => <Place>[]);
