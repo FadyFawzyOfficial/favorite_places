@@ -39,6 +39,8 @@ dependencies:
   google_fonts: ^6.2.1
   # A reactive caching and data-binding framework. Riverpod makes working with asynchronous code a breeze.
   flutter_riverpod: ^2.5.1
+  # Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
