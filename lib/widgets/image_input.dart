@@ -13,8 +13,6 @@ class ImageInput extends StatefulWidget {
 }
 
 class _ImageInputState extends State<ImageInput> {
-  File? selectedImage;
-
   @override
   Widget build(BuildContext context) {
     return FormField<File>(
@@ -34,16 +32,16 @@ class _ImageInputState extends State<ImageInput> {
               color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
             ),
           ),
-          child: selectedImage == null
+          child: filedState.value == null
               ? TextButton.icon(
                   icon: const Icon(Icons.camera_rounded),
                   label: const Text('Take Picture'),
-                  onPressed: takePicture,
+                  onPressed: () => takePicture(filedState),
                 )
               : InkWell(
-                  onTap: takePicture,
+                  onTap: () => takePicture(filedState),
                   child: Image.file(
-                    selectedImage!,
+                    filedState.value!,
                     height: double.infinity,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -54,15 +52,13 @@ class _ImageInputState extends State<ImageInput> {
     );
   }
 
-  Future<void> takePicture() async {
+  Future<void> takePicture(FormFieldState filedState) async {
     final imagePicker = ImagePicker();
     final pickedImage =
         await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
 
     if (pickedImage == null) return;
 
-    setState(() {
-      selectedImage = File(pickedImage.path);
-    });
+    filedState.didChange(File(pickedImage.path));
   }
 }
