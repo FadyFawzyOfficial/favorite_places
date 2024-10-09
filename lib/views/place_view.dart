@@ -11,7 +11,12 @@ class PlaceView extends StatelessWidget {
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(title: Text(place.title)),
-      body: Center(child: Text(place.title)),
+      body: Image.file(
+        place.image,
+        height: double.infinity,
+        width: double.infinity,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
