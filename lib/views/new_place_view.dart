@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/place.dart';
 import '../providers/places_provider.dart';
+import '../widgets/image_picker_form_filed.dart';
 
 class NewPlaceView extends ConsumerStatefulWidget {
   const NewPlaceView({super.key});
@@ -14,6 +17,7 @@ class NewPlaceView extends ConsumerStatefulWidget {
 class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
   final formKey = GlobalKey<FormState>();
   var title = '';
+  File? image;
 
   @override
   Widget build(context) {
@@ -34,6 +38,8 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
                 onSaved: (value) => title = value!,
               ),
               const SizedBox(height: 16),
+              ImagePickerFormFiled(onSaved: (value) => image = value),
+              const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: saveItem,
                 icon: const Icon(Icons.add_rounded),
@@ -52,7 +58,8 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
     if (form != null && form.validate()) {
       form.save();
 
-      final newPlace = Place(id: '${DateTime.now()}', title: title);
+      final newPlace =
+          Place(id: '${DateTime.now()}', title: title, image: image!);
 
       ref.read(placesProvider.notifier).addPlace(place: newPlace);
 
