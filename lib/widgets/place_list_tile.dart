@@ -11,6 +11,10 @@ class PlaceListTile extends StatelessWidget {
   @override
   Widget build(context) {
     return ListTile(
+      leading: CircleAvatar(
+        radius: 24,
+        backgroundImage: FileImage(place.image),
+      ),
       title: Text(place.title),
       onTap: () => Navigator.push(
         context,
