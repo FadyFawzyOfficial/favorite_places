@@ -3,16 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageInput extends StatefulWidget {
+class ImagePickerFormFiled extends StatefulWidget {
   final void Function(File?) onSaved;
 
-  const ImageInput({super.key, required this.onSaved});
+  const ImagePickerFormFiled({super.key, required this.onSaved});
 
   @override
-  State<ImageInput> createState() => _ImageInputState();
+  State<ImagePickerFormFiled> createState() => _ImagePickerFormFiledState();
 }
 
-class _ImageInputState extends State<ImageInput> {
+class _ImagePickerFormFiledState extends State<ImagePickerFormFiled> {
   @override
   Widget build(BuildContext context) {
     return FormField<File>(
