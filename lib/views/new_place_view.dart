@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/place.dart';
 import '../providers/places_provider.dart';
+import '../widgets/image_input.dart';
 
 class NewPlaceView extends ConsumerStatefulWidget {
   const NewPlaceView({super.key});
@@ -33,6 +34,8 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
                         : null,
                 onSaved: (value) => title = value!,
               ),
+              const SizedBox(height: 16),
+              const ImageInput(),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: saveItem,
