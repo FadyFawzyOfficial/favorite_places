@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:favorite_places/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -39,6 +40,8 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
               ),
               const SizedBox(height: 16),
               ImagePickerFormFiled(onSaved: (value) => image = value),
+              const SizedBox(height: 16),
+              const LocationInput(),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: saveItem,

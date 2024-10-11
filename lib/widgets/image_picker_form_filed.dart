@@ -21,7 +21,7 @@ class _ImagePickerFormFiledState extends State<ImagePickerFormFiled> {
       builder: (filedState) => InputDecorator(
         decoration: InputDecoration(
           errorText: filedState.errorText,
-          errorBorder: InputBorder.none,
+          border: InputBorder.none,
         ),
         child: Container(
           height: 250,
