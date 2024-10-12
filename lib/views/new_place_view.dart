@@ -19,6 +19,7 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
   final formKey = GlobalKey<FormState>();
   var title = '';
   File? image;
+  PlaceLocation? location;
 
   @override
   Widget build(context) {
@@ -41,7 +42,7 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
               const SizedBox(height: 16),
               ImagePickerFormFiled(onSaved: (value) => image = value),
               const SizedBox(height: 16),
-              const LocationInput(),
+              LocationFormField(onSaved: (value) => location = value),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: saveItem,
@@ -65,7 +66,7 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
         id: '${DateTime.now()}',
         title: title,
         image: image!,
-        location: const PlaceLocation(latitude: 22, longitude: 22, address: ''),
+        location: location!,
       );
 
       ref.read(placesProvider.notifier).addPlace(place: newPlace);
