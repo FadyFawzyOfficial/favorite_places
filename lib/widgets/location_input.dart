@@ -7,7 +7,9 @@ import 'package:location/location.dart';
 import '../models/place.dart';
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  final void Function(PlaceLocation?) onSaved;
+
+  const LocationInput({super.key, required this.onSaved});
 
   @override
   State<LocationInput> createState() => _LocationInputState();
@@ -19,51 +21,61 @@ class _LocationInputState extends State<LocationInput> {
 
   @override
   Widget build(context) {
-    return Column(
-      children: [
-        Container(
-          height: 200,
-          width: double.infinity,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+    return FormField(
+      onSaved: widget.onSaved,
+      validator: (location) => location == null ? 'Location is required' : null,
+      builder: (fieldState) => Column(
+        children: [
+          InputDecorator(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              errorText: fieldState.errorText,
+            ),
+            child: Container(
+              height: 200,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                ),
+              ),
+              child: isGettingLocation
+                  ? const CircularProgressIndicator()
+                  : pickedLocation == null
+                      ? const Text(
+                          'No location chosen',
+                          style: TextStyle(color: Colors.white),
+                        )
+                      : Image.network(
+                          locationImage,
+                          fit: BoxFit.cover,
+                          height: double.infinity,
+                          width: double.infinity,
+                        ),
             ),
           ),
-          child: isGettingLocation
-              ? const CircularProgressIndicator()
-              : pickedLocation == null
-                  ? const Text(
-                      'No location chosen',
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : Image.network(
-                      locationImage,
-                      fit: BoxFit.cover,
-                      height: double.infinity,
-                      width: double.infinity,
-                    ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            TextButton.icon(
-              icon: const Icon(Icons.location_on_rounded),
-              label: const Text('Get current location'),
-              onPressed: getCurrentLocation,
-            ),
-            TextButton.icon(
-              icon: const Icon(Icons.map_rounded),
-              label: const Text('Set on map'),
-              onPressed: () {},
-            ),
-          ],
-        )
-      ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton.icon(
+                icon: const Icon(Icons.location_on_rounded),
+                label: const Text('Get current location'),
+                onPressed: () => getCurrentLocation(filedState: fieldState),
+              ),
+              TextButton.icon(
+                icon: const Icon(Icons.map_rounded),
+                label: const Text('Set on map'),
+                onPressed: () {},
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
-  void getCurrentLocation() async {
+  void getCurrentLocation({required FormFieldState filedState}) async {
     Location location = Location();
 
     bool serviceEnabled;
@@ -104,6 +116,11 @@ class _LocationInputState extends State<LocationInput> {
 
     setState(() {
       isGettingLocation = false;
+      filedState.didChange(PlaceLocation(
+        latitude: latitude,
+        longitude: longitude,
+        address: address,
+      ));
       pickedLocation = PlaceLocation(
         latitude: latitude,
         longitude: longitude,
