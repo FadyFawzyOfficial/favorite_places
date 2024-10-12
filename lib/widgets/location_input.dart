@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:location/location.dart';
+
+import '../models/place.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key});
@@ -9,7 +14,7 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
-  LocationData? location;
+  PlaceLocation? pickedLocation;
   var isGettingLocation = false;
 
   @override
@@ -27,10 +32,17 @@ class _LocationInputState extends State<LocationInput> {
           ),
           child: isGettingLocation
               ? const CircularProgressIndicator()
-              : const Text(
-                  'No location chosen',
-                  style: TextStyle(color: Colors.white),
-                ),
+              : pickedLocation == null
+                  ? const Text(
+                      'No location chosen',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  : Image.network(
+                      locationImage,
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
+                    ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -75,10 +87,36 @@ class _LocationInputState extends State<LocationInput> {
     }
 
     setState(() => isGettingLocation = true);
-    locationData = await location.getLocation();
-    setState(() => isGettingLocation = false);
 
-    print(locationData.latitude);
-    print(locationData.longitude);
+    locationData = await location.getLocation();
+
+    final latitude = locationData.latitude;
+    final longitude = locationData.longitude;
+
+    if (latitude == null || longitude == null) return;
+
+    final url = Uri.parse(
+      'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=AIzaSyBjcGIyfdcyNH5mDnbhdFZi8rDhwaYuytg',
+    );
+    final response = await get(url);
+    final responseBody = json.decode(response.body);
+    final address = responseBody['results'][0]['formatted_address'];
+
+    setState(() {
+      isGettingLocation = false;
+      pickedLocation = PlaceLocation(
+        latitude: latitude,
+        longitude: longitude,
+        address: address,
+      );
+    });
+  }
+
+  String get locationImage {
+    if (pickedLocation == null) return '';
+
+    final latitude = pickedLocation!.latitude;
+    final longitude = pickedLocation!.longitude;
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$latitude,$longitude&key=AIzaSyBENZ3UbuWCyk0FrYIG39nJU69v-sXrIs4';
   }
 }
