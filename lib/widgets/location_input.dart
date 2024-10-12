@@ -32,10 +32,17 @@ class _LocationInputState extends State<LocationInput> {
           ),
           child: isGettingLocation
               ? const CircularProgressIndicator()
-              : const Text(
-                  'No location chosen',
-                  style: TextStyle(color: Colors.white),
-                ),
+              : pickedLocation == null
+                  ? const Text(
+                      'No location chosen',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  : Image.network(
+                      locationImage,
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
+                    ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -103,5 +110,13 @@ class _LocationInputState extends State<LocationInput> {
         address: address,
       );
     });
+  }
+
+  String get locationImage {
+    if (pickedLocation == null) return '';
+
+    final latitude = pickedLocation!.latitude;
+    final longitude = pickedLocation!.longitude;
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$latitude,$longitude&key=AIzaSyBENZ3UbuWCyk0FrYIG39nJU69v-sXrIs4';
   }
 }
