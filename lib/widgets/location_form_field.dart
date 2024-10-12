@@ -6,16 +6,16 @@ import 'package:location/location.dart';
 
 import '../models/place.dart';
 
-class LocationInput extends StatefulWidget {
+class LocationFormField extends StatefulWidget {
   final void Function(PlaceLocation?) onSaved;
 
-  const LocationInput({super.key, required this.onSaved});
+  const LocationFormField({super.key, required this.onSaved});
 
   @override
-  State<LocationInput> createState() => _LocationInputState();
+  State<LocationFormField> createState() => _LocationFormFieldState();
 }
 
-class _LocationInputState extends State<LocationInput> {
+class _LocationFormFieldState extends State<LocationFormField> {
   PlaceLocation? pickedLocation;
   var isGettingLocation = false;
 
