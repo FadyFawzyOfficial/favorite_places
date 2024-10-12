@@ -61,8 +61,12 @@ class _NewPlaceViewState extends ConsumerState<NewPlaceView> {
     if (form != null && form.validate()) {
       form.save();
 
-      final newPlace =
-          Place(id: '${DateTime.now()}', title: title, image: image!);
+      final newPlace = Place(
+        id: '${DateTime.now()}',
+        title: title,
+        image: image!,
+        location: const PlaceLocation(latitude: 22, longitude: 22, address: ''),
+      );
 
       ref.read(placesProvider.notifier).addPlace(place: newPlace);
 
