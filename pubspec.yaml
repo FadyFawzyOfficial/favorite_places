@@ -41,6 +41,10 @@ dependencies:
   flutter_riverpod: ^2.5.1
   # Flutter plugin for selecting images from the Android and iOS image library, and taking new pictures with the camera
   image_picker: ^1.1.2
+  # Cross-platform plugin for easy access to device's location in real-time.
+  location: ^7.0.0
+  # A composable, multi-platform, Future-based API for HTTP requests.
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
