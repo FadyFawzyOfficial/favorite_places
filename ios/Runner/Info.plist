@@ -48,6 +48,8 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Pick your favorite place image.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Take your favorite place image</string>
+	<string>Take your favorite place image.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The location for you favorite palce.</string>
 </dict>
 </plist>
