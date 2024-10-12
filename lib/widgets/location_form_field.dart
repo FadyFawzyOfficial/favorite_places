@@ -16,7 +16,6 @@ class LocationFormField extends StatefulWidget {
 }
 
 class _LocationFormFieldState extends State<LocationFormField> {
-  PlaceLocation? pickedLocation;
   var isGettingLocation = false;
 
   @override
@@ -42,13 +41,13 @@ class _LocationFormFieldState extends State<LocationFormField> {
               ),
               child: isGettingLocation
                   ? const CircularProgressIndicator()
-                  : pickedLocation == null
+                  : fieldState.value == null
                       ? const Text(
                           'No location chosen',
                           style: TextStyle(color: Colors.white),
                         )
                       : Image.network(
-                          locationImage,
+                          getLocationImage(fieldState.value!),
                           fit: BoxFit.cover,
                           height: double.infinity,
                           width: double.infinity,
@@ -121,19 +120,12 @@ class _LocationFormFieldState extends State<LocationFormField> {
         longitude: longitude,
         address: address,
       ));
-      pickedLocation = PlaceLocation(
-        latitude: latitude,
-        longitude: longitude,
-        address: address,
-      );
     });
   }
 
-  String get locationImage {
-    if (pickedLocation == null) return '';
-
-    final latitude = pickedLocation!.latitude;
-    final longitude = pickedLocation!.longitude;
+  String getLocationImage(PlaceLocation pickedLocation) {
+    final latitude = pickedLocation.latitude;
+    final longitude = pickedLocation.longitude;
     return 'https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$latitude,$longitude&key=AIzaSyBENZ3UbuWCyk0FrYIG39nJU69v-sXrIs4';
   }
 }
