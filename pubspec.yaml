@@ -43,6 +43,8 @@ dependencies:
   image_picker: ^1.1.2
   # Cross-platform plugin for easy access to device's location in real-time.
   location: ^7.0.0
+  # A composable, multi-platform, Future-based API for HTTP requests.
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
