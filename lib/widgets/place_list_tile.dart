@@ -16,6 +16,7 @@ class PlaceListTile extends StatelessWidget {
         backgroundImage: FileImage(place.image),
       ),
       title: Text(place.title),
+      subtitle: Text(place.location.address),
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => PlaceView(place: place)),

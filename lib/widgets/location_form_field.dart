@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:location/location.dart';
 
 import '../models/place.dart';
+import '../utils/location_previewer.dart';
 
 class LocationFormField extends StatefulWidget {
   final void Function(PlaceLocation?) onSaved;
@@ -20,7 +21,7 @@ class _LocationFormFieldState extends State<LocationFormField> {
 
   @override
   Widget build(context) {
-    return FormField(
+    return FormField<PlaceLocation>(
       onSaved: widget.onSaved,
       validator: (location) => location == null ? 'Location is required' : null,
       builder: (fieldState) => Column(
@@ -47,7 +48,7 @@ class _LocationFormFieldState extends State<LocationFormField> {
                           style: TextStyle(color: Colors.white),
                         )
                       : Image.network(
-                          getLocationImage(fieldState.value!),
+                          getLocationImage(location: fieldState.value!),
                           fit: BoxFit.cover,
                           height: double.infinity,
                           width: double.infinity,
@@ -121,11 +122,5 @@ class _LocationFormFieldState extends State<LocationFormField> {
         address: address,
       ));
     });
-  }
-
-  String getLocationImage(PlaceLocation pickedLocation) {
-    final latitude = pickedLocation.latitude;
-    final longitude = pickedLocation.longitude;
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$latitude,$longitude&key=AIzaSyBENZ3UbuWCyk0FrYIG39nJU69v-sXrIs4';
   }
 }
