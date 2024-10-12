@@ -20,7 +20,7 @@ class _LocationFormFieldState extends State<LocationFormField> {
 
   @override
   Widget build(context) {
-    return FormField(
+    return FormField<PlaceLocation>(
       onSaved: widget.onSaved,
       validator: (location) => location == null ? 'Location is required' : null,
       builder: (fieldState) => Column(
