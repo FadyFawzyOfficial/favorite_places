@@ -34,7 +34,7 @@ class _MapViewState extends State<MapView> {
           if (widget.isPicking)
             IconButton(
               icon: const Icon(Icons.save_rounded),
-              onPressed: () {},
+              onPressed: () => Navigator.pop(context, pickedLatLng),
             ),
         ],
       ),
