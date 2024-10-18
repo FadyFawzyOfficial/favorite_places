@@ -39,7 +39,9 @@ class _MapViewState extends State<MapView> {
         ],
       ),
       body: GoogleMap(
-        onTap: (latLng) => setState(() => pickedLatLng = latLng),
+        onTap: widget.isPicking
+            ? (latLng) => setState(() => pickedLatLng = latLng)
+            : null,
         initialCameraPosition: CameraPosition(
           target: latLng,
           zoom: 16,
