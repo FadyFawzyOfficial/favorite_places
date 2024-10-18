@@ -1,11 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import '../models/place.dart';
+import '../utils/address_getter.dart';
 import '../utils/location_previewer.dart';
+import '../views/map_view.dart';
 
 class LocationFormField extends StatefulWidget {
   final void Function(PlaceLocation?) onSaved;
@@ -66,7 +66,7 @@ class _LocationFormFieldState extends State<LocationFormField> {
               TextButton.icon(
                 icon: const Icon(Icons.map_rounded),
                 label: const Text('Set on map'),
-                onPressed: () {},
+                onPressed: () => getLocationFromMap(fieldState: fieldState),
               ),
             ],
           )
@@ -107,16 +107,38 @@ class _LocationFormFieldState extends State<LocationFormField> {
 
     if (latitude == null || longitude == null) return;
 
-    final url = Uri.parse(
-      'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=AIzaSyBjcGIyfdcyNH5mDnbhdFZi8rDhwaYuytg',
+    savePlace(latitude: latitude, longitude: longitude, fieldState: filedState);
+  }
+
+  void getLocationFromMap({required FormFieldState fieldState}) async {
+    setState(() => isGettingLocation = true);
+
+    final pickedLocation = await Navigator.push<LatLng>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MapView(isPicking: true),
+      ),
     );
-    final response = await get(url);
-    final responseBody = json.decode(response.body);
-    final address = responseBody['results'][0]['formatted_address'];
+
+    if (pickedLocation == null) return;
+
+    savePlace(
+      latitude: pickedLocation.latitude,
+      longitude: pickedLocation.longitude,
+      fieldState: fieldState,
+    );
+  }
+
+  Future<void> savePlace({
+    required double latitude,
+    required double longitude,
+    required FormFieldState fieldState,
+  }) async {
+    final address = await getAddress(latitude: latitude, longitude: longitude);
 
     setState(() {
       isGettingLocation = false;
-      filedState.didChange(PlaceLocation(
+      fieldState.didChange(PlaceLocation(
         latitude: latitude,
         longitude: longitude,
         address: address,
