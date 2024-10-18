@@ -1,3 +1,4 @@
+import 'package:favorite_places/views/map_view.dart';
 import 'package:flutter/material.dart';
 
 import '../models/place.dart';
@@ -27,10 +28,21 @@ class PlaceView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CircleAvatar(
-                  radius: 64,
-                  backgroundImage: NetworkImage(
-                    getLocationImage(location: place.location),
+                InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapView(
+                        isPicking: false,
+                        location: place.location,
+                      ),
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 64,
+                    backgroundImage: NetworkImage(
+                      getLocationImage(location: place.location),
+                    ),
                   ),
                 ),
                 Container(
