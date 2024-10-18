@@ -22,6 +22,8 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
+  LatLng? pickedLatLng;
+
   @override
   Widget build(BuildContext context) {
     final latLng = LatLng(widget.location.latitude, widget.location.longitude);
@@ -37,16 +39,19 @@ class _MapViewState extends State<MapView> {
         ],
       ),
       body: GoogleMap(
+        onTap: (latLng) => setState(() => pickedLatLng = latLng),
         initialCameraPosition: CameraPosition(
           target: latLng,
           zoom: 16,
         ),
-        markers: {
-          Marker(
-            markerId: const MarkerId('m1'),
-            position: latLng,
-          ),
-        },
+        markers: pickedLatLng == null && widget.isPicking
+            ? {}
+            : {
+                Marker(
+                  markerId: const MarkerId('m1'),
+                  position: pickedLatLng ?? latLng,
+                ),
+              },
       ),
     );
   }
