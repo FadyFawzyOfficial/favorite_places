@@ -45,6 +45,8 @@ dependencies:
   location: ^7.0.0
   # A composable, multi-platform, Future-based API for HTTP requests.
   http: ^1.2.2
+  # A Flutter plugin for integrating Google Maps in iOS and Android applications.
+  google_maps_flutter: ^2.9.0
 
 dev_dependencies:
   flutter_test:
