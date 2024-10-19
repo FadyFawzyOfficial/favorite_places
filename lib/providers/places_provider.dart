@@ -23,6 +23,14 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     return db;
   }
 
+  void get places async {
+    final db = await database;
+    final placesData = await db.query(placesTable);
+    final places =
+        placesData.map((placeRow) => Place.fromMap(placeRow)).toList();
+    state = places;
+  }
+
   void addPlace({required Place place}) async {
     final appDirectory = await getApplicationDocumentsDirectory();
     final filename = basename(place.image.path);
