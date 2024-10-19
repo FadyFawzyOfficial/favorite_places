@@ -35,6 +35,15 @@ class Place {
       ...location.toMap(),
     };
   }
+
+  factory Place.fromMap(Map<String, dynamic> map) {
+    return Place(
+      id: map['id'],
+      title: map['title'],
+      image: File(map['image']),
+      location: PlaceLocation.fromMap(map['location']),
+    );
+  }
 }
 
 class PlaceLocation {
@@ -54,5 +63,13 @@ class PlaceLocation {
       'longitude': longitude,
       'address': address,
     };
+  }
+
+  factory PlaceLocation.fromMap(Map<String, dynamic> map) {
+    return PlaceLocation(
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      address: map['address'],
+    );
   }
 }
