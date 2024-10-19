@@ -12,6 +12,20 @@ class Place {
     required this.image,
     required this.location,
   });
+
+  Place copyWith({
+    String? id,
+    String? title,
+    File? image,
+    PlaceLocation? location,
+  }) {
+    return Place(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      image: image ?? this.image,
+      location: location ?? this.location,
+    );
+  }
 }
 
 class PlaceLocation {
