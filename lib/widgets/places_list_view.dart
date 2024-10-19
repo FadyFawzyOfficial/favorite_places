@@ -13,12 +13,26 @@ class PlacesListView extends ConsumerStatefulWidget {
 }
 
 class _PlaceListViewState extends ConsumerState<PlacesListView> {
+  late final Future<void> placesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    placesFuture = ref.read(placesProvider.notifier).places;
+  }
+
   @override
   Widget build(context) {
     final places = ref.watch(placesProvider);
-    return places.isEmpty
-        ? const PlacesEmptyState()
-        : PlacesList(places: places);
+    return FutureBuilder(
+      future: placesFuture,
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? const Center(child: CircularProgressIndicator())
+              : places.isEmpty
+                  ? const PlacesEmptyState()
+                  : PlacesList(places: places),
+    );
   }
 }
 

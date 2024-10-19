@@ -23,7 +23,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     return db;
   }
 
-  void get places async {
+  Future<void> get places async {
     final db = await database;
     final placesData = await db.query(placesTable);
     final places =
@@ -37,8 +37,6 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     final copiedImage =
         await place.image.copy('${appDirectory.path}/$filename');
     final newPlace = place.copyWith(image: copiedImage);
-
-    print(newPlace.toMap());
 
     final db = await database;
 
