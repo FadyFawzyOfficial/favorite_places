@@ -5,11 +5,16 @@ import '../models/place.dart';
 import '../providers/places_provider.dart';
 import 'place_list_tile.dart';
 
-class PlacesListView extends ConsumerWidget {
+class PlacesListView extends ConsumerStatefulWidget {
   const PlacesListView({super.key});
 
   @override
-  Widget build(context, ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _PlaceListViewState();
+}
+
+class _PlaceListViewState extends ConsumerState<PlacesListView> {
+  @override
+  Widget build(context) {
     final places = ref.watch(placesProvider);
     return places.isEmpty
         ? const PlacesEmptyState()
