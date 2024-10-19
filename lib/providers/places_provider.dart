@@ -1,8 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../models/place.dart';
+
+const dbName = 'places.db';
+const placesTable = 'user_places';
 
 class PlacesNotifier extends StateNotifier<List<Place>> {
   PlacesNotifier() : super(const []);
@@ -13,6 +17,18 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     final copiedImage =
         await place.image.copy('${appDirectory.path}/$filename');
     final newPlace = place.copyWith(image: copiedImage);
+
+    final dbPath = await getDatabasesPath();
+    final db = await openDatabase(
+      join(dbPath, dbName),
+      onCreate: (db, version) => db.execute(
+          'CREATE TABLE $placesTable(id TEXT PRIMARY KEY, title TEXT, image TEXT, latitude REAL, longitude REAL, address TEXT)'),
+      version: 1,
+    );
+
+    print(newPlace.toMap());
+
+    db.insert(placesTable, newPlace.toMap());
 
     state = [newPlace, ...state];
   }

@@ -26,6 +26,15 @@ class Place {
       location: location ?? this.location,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'image': image.path,
+      ...location.toMap(),
+    };
+  }
 }
 
 class PlaceLocation {
@@ -38,4 +47,12 @@ class PlaceLocation {
     required this.longitude,
     required this.address,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    };
+  }
 }
