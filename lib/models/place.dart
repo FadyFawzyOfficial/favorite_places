@@ -12,6 +12,42 @@ class Place {
     required this.image,
     required this.location,
   });
+
+  Place copyWith({
+    String? id,
+    String? title,
+    File? image,
+    PlaceLocation? location,
+  }) {
+    return Place(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      image: image ?? this.image,
+      location: location ?? this.location,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'image': image.path,
+      ...location.toMap(),
+    };
+  }
+
+  factory Place.fromMap(Map<String, dynamic> map) {
+    return Place(
+      id: map['id'],
+      title: map['title'],
+      image: File(map['image']),
+      location: PlaceLocation(
+        latitude: map['latitude'],
+        longitude: map['longitude'],
+        address: map['address'],
+      ),
+    );
+  }
 }
 
 class PlaceLocation {
@@ -24,4 +60,20 @@ class PlaceLocation {
     required this.longitude,
     required this.address,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'latitude': latitude,
+      'longitude': longitude,
+      'address': address,
+    };
+  }
+
+  factory PlaceLocation.fromMap(Map<String, dynamic> map) {
+    return PlaceLocation(
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      address: map['address'],
+    );
+  }
 }

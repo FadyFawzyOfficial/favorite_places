@@ -5,15 +5,34 @@ import '../models/place.dart';
 import '../providers/places_provider.dart';
 import 'place_list_tile.dart';
 
-class PlacesListView extends ConsumerWidget {
+class PlacesListView extends ConsumerStatefulWidget {
   const PlacesListView({super.key});
 
   @override
-  Widget build(context, ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _PlaceListViewState();
+}
+
+class _PlaceListViewState extends ConsumerState<PlacesListView> {
+  late final Future<void> placesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    placesFuture = ref.read(placesProvider.notifier).places;
+  }
+
+  @override
+  Widget build(context) {
     final places = ref.watch(placesProvider);
-    return places.isEmpty
-        ? const PlacesEmptyState()
-        : PlacesList(places: places);
+    return FutureBuilder(
+      future: placesFuture,
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? const Center(child: CircularProgressIndicator())
+              : places.isEmpty
+                  ? const PlacesEmptyState()
+                  : PlacesList(places: places),
+    );
   }
 }
 
