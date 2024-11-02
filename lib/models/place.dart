@@ -41,7 +41,11 @@ class Place {
       id: map['id'],
       title: map['title'],
       image: File(map['image']),
-      location: PlaceLocation.fromMap(map['location']),
+      location: PlaceLocation(
+        latitude: map['latitude'],
+        longitude: map['longitude'],
+        address: map['address'],
+      ),
     );
   }
 }
